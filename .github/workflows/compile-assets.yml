@@ -1,0 +1,8 @@
+name: compile assets
+
+on: [push]
+
+jobs:
+  compile:
+    uses: amirmarmul/.github/.github/workflows/compile-assets.yml@main
+

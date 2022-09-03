@@ -1,0 +1,29 @@
+name: build docker image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  build-and-push:
+    name: Build, push and deploy Docker image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up docker remote context
+        uses: amirmarmul/docker-context-ssh-action@v1
+        with:
+          ssh-host: ${{ secrets.SSH_HOST }}
+          ssh-username: ${{ secrets.SSH_USERNAME }}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Build and deploy
+        run: |
+          echo -n '${{ secrets.ENV_DEPLOY }}' | base64 --decode > .env
+          docker --context remote compose -f docker-compose.prod.yml up --build --detach
+          docker --context remote compose -f docker-compose.prod.yml ps
+
