@@ -10,8 +10,8 @@ FROM composer:2 as build
 
 WORKDIR /var/www/html
 
-COPY composer.* ./
-COPY database ./database
+COPY ./composer.* ./
+COPY ./database ./database
 
 RUN composer install \
     --ignore-platform-reqs \
