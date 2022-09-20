@@ -24,7 +24,6 @@ return new class extends Migration
             $table->foreignId('client_id')->nullable();
             $table->timestamps();
         });
-
     }
 
     /**
